@@ -10,8 +10,12 @@ export default {
   },
   components: { SelecionarIngredientes, Tag },
   methods: {
-    adicionarIngredientes(ingrediente: string){
+    adicionarIngredientes(ingrediente: string) {
       this.ingredientes.push(ingrediente)
+    },
+    removerIngredientes(ingrediente: string) {
+      // filter => retorna um novo array sem o item especificado
+      this.ingredientes = this.ingredientes.filter(elemento => elemento !== ingrediente)
     }
   }
 }
@@ -27,7 +31,7 @@ export default {
 
       <ul v-if="ingredientes.length" class="ingredientes-sua-lista">
         <li v-for="ingrediente in ingredientes" :key="ingrediente">
-          <Tag :texto="ingrediente" :ativa="true"/>
+          <Tag :texto="ingrediente" :ativa="true" />
         </li>
       </ul>
 
@@ -36,7 +40,8 @@ export default {
         Sua lista está vazia, selecione ingredientes para iniciar.
       </p>
 
-      <SelecionarIngredientes @adicionar-ingrediente="adicionarIngredientes" />
+      <SelecionarIngredientes @adicionar-ingrediente="adicionarIngredientes"
+        @remover-ingrediente="removerIngredientes" />
     </section>
   </main>
 </template>
@@ -93,4 +98,3 @@ export default {
   }
 }
 </style>
-
