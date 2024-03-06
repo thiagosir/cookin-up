@@ -1,14 +1,18 @@
 <script lang="ts">
 import SelecionarIngredientes from './SelecionarIngredientes.vue'
+import MostrarReceitas from './MostrarReceitas.vue'
 import Tag from './Tag.vue'
+
+type Pagina = 'SelecionarIngredientes' | 'MostrarReceitas';
 
 export default {
   data() {
     return {
-      ingredientes: [] as string[]
+      ingredientes: [] as string[],
+      conteudo: 'SelecionarIngredientes' as Pagina
     }
   },
-  components: { SelecionarIngredientes, Tag },
+  components: { SelecionarIngredientes, Tag, MostrarReceitas },
   methods: {
     adicionarIngredientes(ingrediente: string) {
       this.ingredientes.push(ingrediente)
@@ -16,6 +20,9 @@ export default {
     removerIngredientes(ingrediente: string) {
       // filter => retorna um novo array sem o item especificado
       this.ingredientes = this.ingredientes.filter(elemento => elemento !== ingrediente)
+    },
+    navegar(pagina: Pagina) {
+      this.conteudo = pagina
     }
   }
 }
@@ -40,8 +47,11 @@ export default {
         Sua lista está vazia, selecione ingredientes para iniciar.
       </p>
 
-      <SelecionarIngredientes @adicionar-ingrediente="adicionarIngredientes"
-        @remover-ingrediente="removerIngredientes" />
+      <SelecionarIngredientes v-if="conteudo === 'SelecionarIngredientes'"
+        @adicionar-ingrediente="adicionarIngredientes" @remover-ingrediente="removerIngredientes"
+        @busca-receitas="navegar('MostrarReceitas')" />
+
+      <MostrarReceitas v-else-if="conteudo === 'MostrarReceitas'" />
     </section>
   </main>
 </template>
