@@ -47,11 +47,15 @@ export default {
         Sua lista está vazia, selecione ingredientes para iniciar.
       </p>
 
-      <SelecionarIngredientes v-if="conteudo === 'SelecionarIngredientes'"
-        @adicionar-ingrediente="adicionarIngredientes" @remover-ingrediente="removerIngredientes"
-        @busca-receitas="navegar('MostrarReceitas')" />
+      <KeepAlive include="SelecionarIngredientes">
+        <SelecionarIngredientes v-if="conteudo === 'SelecionarIngredientes'"
+          @adicionar-ingrediente="adicionarIngredientes" @remover-ingrediente="removerIngredientes"
+          @busca-receitas="navegar('MostrarReceitas')" />
 
-      <MostrarReceitas v-else-if="conteudo === 'MostrarReceitas'" />
+        <MostrarReceitas v-else-if="conteudo === 'MostrarReceitas'" :ingredientes="ingredientes"
+          @editar-receitas="navegar('SelecionarIngredientes')" />
+      </KeepAlive>
+
     </section>
   </main>
 </template>
